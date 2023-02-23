@@ -7,7 +7,7 @@ import { HelloWorldModel } from "./models/HelloWorldModel";
 export class HelloWorldController {
 	@Get("/")
 	@Returns(200, HelloWorldModel)
-	get(): HelloWorldModel {
+	get() {
 		return { body: "Hello World" };
 	}
 }
@@ -16,7 +16,7 @@ export class HelloWorldController {
 export class HelloWorldController2 {
 	@Get("/")
 	@Returns(200, HelloWorldModel)
-	get(@Required() @QueryParams("name") name: string): HelloWorldModel {
+	get(@Required() @QueryParams("name") name: string) {
 		console.log(name);
 		return { body: "Hello World from " + name };
 	}
