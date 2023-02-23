@@ -1,29 +1,23 @@
 import { Controller } from "@tsed/di";
 import { QueryParams } from "@tsed/platform-params";
-import { Get, MinLength, Property, Required } from "@tsed/schema";
+import { Get, Required, Returns } from "@tsed/schema";
+import { HelloWorldModel } from "./models/HelloWorldModel";
 
 @Controller("/hello-world")
 export class HelloWorldController {
 	@Get("/")
-	get() {
-		return "hello";
+	@Returns(200, HelloWorldModel)
+	get(): HelloWorldModel {
+		return { body: "Hello World" };
 	}
 }
 
-class HelloWorldQueryParamModel {
-	@Required()
-	@MinLength(1)
-	name: string;
-
-	@Property()
-	duration: number;
-}
-
-@Controller("/hello-world2")
+@Controller("/hello-world-2")
 export class HelloWorldController2 {
 	@Get("/")
-	get(@QueryParams() params: HelloWorldQueryParamModel) {
-		console.log(params);
-		return "hello";
+	@Returns(200, HelloWorldModel)
+	get(@Required() @QueryParams("name") name: string): HelloWorldModel {
+		console.log(name);
+		return { body: "Hello World from " + name };
 	}
 }
