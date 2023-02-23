@@ -6,9 +6,9 @@ import { HelloWorldModel } from "./models/HelloWorldModel";
 @Controller("/hello-world")
 export class HelloWorldController {
 	@Get("/")
-	@Returns(200, HelloWorldModel)
+	@Returns(200, String).ContentType("text/plain")
 	get() {
-		return { body: "Hello World" };
+		return "yo";
 	}
 }
 

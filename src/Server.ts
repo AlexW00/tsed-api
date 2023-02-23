@@ -8,9 +8,11 @@ import { config } from "./config/index";
 import * as rest from "./controllers/rest/index";
 import * as pages from "./controllers/pages/index";
 
+export const rootDir = __dirname;
+
 @Configuration({
 	...config,
-	acceptMimes: ["application/json"],
+	acceptMimes: ["application/json", "text/html", "text/plain"],
 	httpPort: process.env.PORT || 8083,
 	httpsPort: false, // CHANGE in PROD
 	disableComponentsScan: true,
@@ -22,7 +24,8 @@ import * as pages from "./controllers/pages/index";
 		{
 			path: "/doc",
 			specVersion: "3.0.1",
-			outFile: "out/swagger.json",
+			outFile: `${rootDir}/out/swagger.json`,
+			// showExplorer: true, // display search bar
 		},
 	],
 	middlewares: [
@@ -34,7 +37,7 @@ import * as pages from "./controllers/pages/index";
 		{ use: "urlencoded-parser", options: { extended: true } },
 	],
 	views: {
-		root: join(process.cwd(), "../views"),
+		root: join(`${rootDir}/views`),
 		extensions: {
 			ejs: "ejs",
 		},
