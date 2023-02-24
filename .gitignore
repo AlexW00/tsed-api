@@ -53,8 +53,7 @@ test/**/*.js.map
 /out
 
 #env
-.env.local
-.env.development
+.env
 
 
 #npm

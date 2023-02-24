@@ -2,9 +2,11 @@ import { $log } from "@tsed/common";
 import { PlatformExpress } from "@tsed/platform-express";
 import { Server } from "./Server";
 
+const config = require("dotenv").config({ path: ".env" });
+
 async function bootstrap() {
 	try {
-		const platform = await PlatformExpress.bootstrap(Server);
+		const platform = await PlatformExpress.bootstrap(Server, config.parsed);
 		await platform.listen();
 
 		process.on("SIGINT", () => {

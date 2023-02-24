@@ -7,8 +7,10 @@ import "@tsed/swagger";
 import { config } from "./config/index";
 import * as rest from "./controllers/rest/index";
 import * as pages from "./controllers/pages/index";
+import { Env } from "@tsed/core";
 
 export const rootDir = __dirname;
+export const isProduction = process.env.NODE_ENV === Env.PROD;
 
 @Configuration({
 	...config,
@@ -16,6 +18,11 @@ export const rootDir = __dirname;
 	httpPort: process.env.PORT || 8083,
 	httpsPort: false, // CHANGE in PROD
 	disableComponentsScan: true,
+	neo: {
+		url: process.env.NEO_URL,
+		username: process.env.NEO_USERNAME,
+		password: process.env.NEO_PASSWORD,
+	},
 	mount: {
 		"/api": [...Object.values(rest)],
 		"/": [...Object.values(pages)],
@@ -43,6 +50,9 @@ export const rootDir = __dirname;
 		},
 	},
 	exclude: ["**/*.spec.ts"],
+	logger: {
+		disableRoutesSummary: isProduction, // remove table with routes summary
+	},
 })
 export class Server {
 	@Inject()
