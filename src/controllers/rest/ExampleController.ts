@@ -2,6 +2,7 @@ import { Controller } from "@tsed/di";
 import { InternalServerError } from "@tsed/exceptions";
 import { QueryParams } from "@tsed/platform-params";
 import { Description, Get, Required, Returns } from "@tsed/schema";
+import { NodeModel } from "src/models/graph/nodes/NodeModel";
 import { NeoService } from "src/services/NeoService";
 
 @Controller("/example")
@@ -18,7 +19,7 @@ export class ExampleController {
 
 	@Get("/neo-test")
 	@Description("Returns a random node from the Neo4j database")
-	@Returns(200, Object)
+	@Returns(200, NodeModel)
 	@Returns(500)
 	async neoTest() {
 		try {
