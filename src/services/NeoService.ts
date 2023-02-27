@@ -28,4 +28,24 @@ export class NeoService {
 		$log.info("NeoService is destroying");
 		await this.driver.close();
 	}
+
+	async getRandomNode(): Promise<any> {
+		const session = this.getSession();
+		try {
+			const readRandomElement = `
+			MATCH (a)-[]->(t) 
+			RETURN a, ransd() as r
+			ORDER BY r
+			`;
+
+			const readResult = await session.executeRead((tx) =>
+				tx.run(readRandomElement)
+			);
+			return readResult.records[0]?.get(0) ?? {};
+		} catch (error) {
+			throw error;
+		} finally {
+			await session.close();
+		}
+	}
 }

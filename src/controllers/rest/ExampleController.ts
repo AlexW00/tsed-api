@@ -6,6 +6,7 @@ import { NeoService } from "src/services/NeoService";
 
 @Controller("/example")
 export class ExampleController {
+	// Use NeoService via dependency injection
 	constructor(private readonly neoService: NeoService) {}
 
 	@Get("/hello")
@@ -20,21 +21,10 @@ export class ExampleController {
 	@Returns(200, Object)
 	@Returns(500)
 	async neoTest() {
-		const session = this.neoService.getSession();
 		try {
-			const readRandomElement = `
-			MATCH (a)-[]->(t) 
-			RETURN a, rand() as r
-			ORDER BY r
-			`;
-			const readResult = await session.executeRead((tx) =>
-				tx.run(readRandomElement)
-			);
-			return readResult.records[0]?.get(0) ?? {};
-		} catch (error) {
-			throw new InternalServerError(error.message);
-		} finally {
-			await session.close();
+			return await this.neoService.getRandomNode();
+		} catch (e) {
+			throw new InternalServerError(e.message);
 		}
 	}
 }
